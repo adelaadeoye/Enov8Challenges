@@ -16,7 +16,7 @@ async function findAllStaff() {
 
 async function addStaff(StaffDetails) {
   const [id] = await db("staffs").insert(StaffDetails, "id");
-  return findById(id);
+  return findAllStaff();
 }
 
 function findById(id) {
@@ -38,7 +38,7 @@ async function removeStaff(id) {
     .where({ id })
     .del();
 
-  return removed;
+  return findAllStaff();
 }
 
 async function updateStaff(id, changes) {
