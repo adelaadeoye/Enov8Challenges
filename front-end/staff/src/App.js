@@ -114,7 +114,7 @@ function App() {
           placeholder="Last Name"
           onChange={handleChange}
         />
-
+<label for="Designation" >Designation: </label>
         <select
           name="Designation"
           value={values.Designation}
@@ -141,6 +141,9 @@ function App() {
           value={values.email}
           placeholder="email"
         />
+
+<label for="dob" >Date of Birth: </label>
+
         <input
           onChange={handleChange}
           name="dob"
