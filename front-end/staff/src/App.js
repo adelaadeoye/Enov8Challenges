@@ -20,7 +20,7 @@ function App() {
     axios
       .get("http://localhost:5003/api/staffs/")
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         setData(res.data);
       })
       .catch((error) => {
@@ -37,8 +37,9 @@ function App() {
     axios
       .post("http://localhost:5003/api/staffs/add", values)
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
         setData(res.data.data);
+        setValues(initials)
 
       })
       .catch((error) => {
@@ -50,7 +51,7 @@ function App() {
     axios
       .delete(`http://localhost:5003/api/staffs/${id}`)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         setData(res.data.listing);
       })
       .catch((error) => {
@@ -131,7 +132,6 @@ function App() {
           </tr>
 
           {data.map(function (item, i) {
-            console.log(item);
             return (
               <tr key={item.id}>
                 <td>{item.staff_id}</td>
