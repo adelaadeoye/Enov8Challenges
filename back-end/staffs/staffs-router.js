@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 //Get  listings added by user
 router.get("/:id", (req, res) => { 
   const id= req.params.id;
-  db.findByUser(id)
+  db.findById(id)
     .then(listings => {
       res.status(200).json(listings);
     })
@@ -58,10 +58,10 @@ router.put("/:id", (req, res) => {
   db.findById(id).then(listing => {
     if (listing) {
       db.updateStaff(id, data)
-        .then(updated => {
+        .then(data => {
           res
             .status(202)
-            .json({ message: "Listing updated successfully", updated });
+            .json({ message: "Listing updated successfully", data });
         })
         .catch(error => {
           res.send({

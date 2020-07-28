@@ -33,7 +33,9 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
+input{
+  margin:5px
+}
 td, th {
   border: 1px solid #dddddd;
   text-align: left;

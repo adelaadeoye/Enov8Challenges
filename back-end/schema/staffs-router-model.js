@@ -46,6 +46,6 @@ async function updateStaff(id, changes) {
     .where({ id })
     .update(changes);
 
-  const updated = await findById(id);
-  return updated;
+    return findAllStaff();
+
 }

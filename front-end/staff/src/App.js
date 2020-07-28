@@ -16,6 +16,8 @@ function App() {
   const [values, setValues] = useState(initials);
   const [data, setData] = useState([]);
   const [status, setStatus] = useState(false);
+  const [btnText, setBtnText] = useState("Add Staff");
+  const [idUpdate, setIdUpdate]=useState("")
   useEffect(() => {
     axios
       .get("http://localhost:5003/api/staffs/")
@@ -32,20 +34,36 @@ function App() {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios
+  const handleSubmit = () => {
+    
+    if(btnText=="Add Staff"){
+      axios
       .post("http://localhost:5003/api/staffs/add", values)
+      
       .then((res) => {
         console.log(res.data.data);
         setData(res.data.data);
-        setValues(initials)
-
+        setValues(initials);
       })
       .catch((error) => {
         console.log(error.response);
       });
-  };
+    }
+    else{
+      axios
+      .put(`http://localhost:5003/api/staffs/${idUpdate}`, values)
+      
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data.data);
+        setValues(initials);
+        setBtnText("Add Staff")
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    }
+    };
 
   const handleDelete = (id) => {
     axios
@@ -58,10 +76,24 @@ function App() {
         console.log(error.response);
       });
   };
-  const handleUpdate = () => {};
+  const handleUpdate = (id) => {
+    axios
+      .get(`http://localhost:5003/api/staffs/${id}`)
+      .then((res) => {
+        console.log(res.data);
+
+        setValues(res.data);
+        setIdUpdate(res.data.id)
+        setBtnText("Update Record")
+      })
+      .catch((error) => {
+        // console.log(error.response);
+      });
+  };
 
   return (
     <div className="App">
+      <h2>Enov8Solutions Staff Records</h2>
       <br />
       <div>
         <input
@@ -87,6 +119,7 @@ function App() {
           name="Designation"
           value={values.Designation}
           onChange={handleChange}
+          placeholder="select designation"
         >
           <option value="IT">IT</option>
           <option value="FULL STACK">FULL STACK</option>
@@ -115,8 +148,10 @@ function App() {
           value={values.dob}
           placeholder="Date of Birth"
         />
-        <button onClick={handleSubmit}>Add staff</button>
+        <br />
+        <button onClick={handleSubmit}>{btnText}</button>
       </div>
+      <br />
       <div>
         <table>
           <tr>
@@ -142,10 +177,10 @@ function App() {
                 <td>{item.email}</td>
                 <td>{item.dob}</td>
                 <td>
-                  <button onClick={()=>handleUpdate(item.id)}>Update</button>
+                  <button onClick={() => handleUpdate(item.id)}>Update</button>
                 </td>
                 <td>
-                  <button onClick={()=>handleDelete(item.id)}>Delete</button>
+                  <button onClick={() => handleDelete(item.id)}>Delete</button>
                 </td>
               </tr>
             );
